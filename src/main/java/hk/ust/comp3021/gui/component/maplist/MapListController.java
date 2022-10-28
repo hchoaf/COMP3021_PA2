@@ -1,10 +1,16 @@
 package hk.ust.comp3021.gui.component.maplist;
 
+import hk.ust.comp3021.game.GameMap;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -27,6 +33,14 @@ public class MapListController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.printf("MapListController initialized with URL: %s \n", location.toString());
+        try {
+            list.getItems().add(MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map00.map")));
+            list.getItems().add(MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map01.map")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         // TODO
     }
 }

@@ -39,7 +39,11 @@ public class MapListItemController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        System.out.printf("MapListItemController Intialized with URL %s \n", location.toString());
+
         // TODO
+
     }
 
     /**

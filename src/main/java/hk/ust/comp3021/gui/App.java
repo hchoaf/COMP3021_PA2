@@ -1,11 +1,27 @@
 package hk.ust.comp3021.gui;
 
+import hk.ust.comp3021.game.GameMap;
+import hk.ust.comp3021.game.GameState;
 import hk.ust.comp3021.gui.component.maplist.MapEvent;
+import hk.ust.comp3021.gui.component.maplist.MapModel;
 import hk.ust.comp3021.gui.scene.game.ExitEvent;
 import hk.ust.comp3021.gui.scene.game.GameScene;
+import hk.ust.comp3021.gui.scene.start.StartController;
 import hk.ust.comp3021.gui.scene.start.StartScene;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.file.Path;
+import java.util.Date;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * The JavaFX application that launches the game.
@@ -25,10 +41,14 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        primaryStage.setTitle("Sokoban Game - COMP3021 2022Fall");
 
+        this.primaryStage.setScene(new StartScene());
+
+        this.primaryStage.setTitle("Sokoban Game - COMP3021 2022Fall");
+        this.primaryStage.show();
         // TODO
     }
+
 
     /**
      * Event handler for opening a map.
@@ -36,8 +56,11 @@ public class App extends Application {
      *
      * @param event The event data related to the map being opened.
      */
-    public void onOpenMap(MapEvent event) {
+    public void onOpenMap(MapEvent event) throws Exception{
+
+        System.out.println("onOpenMap triggered.");
         // TODO
+        primaryStage.setScene(new GameScene(new GameState(event.getModel().gameMap())));
     }
 
     /**

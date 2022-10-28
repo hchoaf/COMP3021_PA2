@@ -22,6 +22,7 @@ public class CellController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO
+        image = new ImageView(String.valueOf(location));
     }
 
     /**
@@ -39,5 +40,6 @@ public class CellController implements Initializable {
      */
     public void setImage(@NotNull URL url) {
         // TODO
+        image = new ImageView(String.valueOf(url));
     }
 }
