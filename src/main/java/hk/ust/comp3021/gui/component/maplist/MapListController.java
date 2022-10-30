@@ -5,7 +5,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,12 +38,18 @@ public class MapListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.printf("MapListController initialized with URL: %s \n", location.toString());
         try {
-            list.getItems().add(MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map00.map")));
-            list.getItems().add(MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map01.map")));
+            var mapModelOne = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map00.map"));
+            var mapModelTwo = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map01.map"));
+            list.getItems().addAll(mapModelOne, mapModelTwo);
+            System.out.println(list.getItems().toString());
+            // list.setCellFactory(cell -> new MapListCell());
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         // TODO
     }
+
+
 }

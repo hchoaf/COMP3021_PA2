@@ -9,6 +9,7 @@ import hk.ust.comp3021.gui.scene.game.GameScene;
 import hk.ust.comp3021.gui.scene.start.StartController;
 import hk.ust.comp3021.gui.scene.start.StartScene;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -41,7 +42,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-
+        var startScene = new StartScene();
         this.primaryStage.setScene(new StartScene());
 
         this.primaryStage.setTitle("Sokoban Game - COMP3021 2022Fall");
@@ -61,6 +62,7 @@ public class App extends Application {
         System.out.println("onOpenMap triggered.");
         // TODO
         primaryStage.setScene(new GameScene(new GameState(event.getModel().gameMap())));
+
     }
 
     /**

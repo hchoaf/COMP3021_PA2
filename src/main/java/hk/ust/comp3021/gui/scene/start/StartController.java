@@ -1,19 +1,25 @@
 package hk.ust.comp3021.gui.scene.start;
 
+import hk.ust.comp3021.game.GameMap;
 import hk.ust.comp3021.gui.component.maplist.MapEvent;
 import hk.ust.comp3021.gui.component.maplist.MapList;
 import hk.ust.comp3021.gui.component.maplist.MapModel;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -51,13 +57,6 @@ public class StartController implements Initializable {
         // TODO
         this.location = location;
         this.resources = resources;
-        this.openButton.setOnAction((EventHandler<ActionEvent>) event -> {
-            try {
-                onOpenMapBtnClicked();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
     }
 
@@ -69,17 +68,21 @@ public class StartController implements Initializable {
      * @param event Event data related to clicking the button.
      */
     @FXML
-    private void onLoadMapBtnClicked(ActionEvent event) {
+    private void onLoadMapBtnClicked(ActionEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(new Stage());
         System.out.println(file.getName());
         System.out.println(file.getPath());
-
+        var pathString = "file://" + file.getPath();
         ZonedDateTime now = ZonedDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z yyyy");
         System.out.println(dtf.format(now));
+        var mapModel = MapModel.load(new URL(pathString));
+        mapList.getItems().add(mapModel);
+        System.out.println(mapModel);
         // TODO
+
     }
 
     /**
@@ -88,6 +91,10 @@ public class StartController implements Initializable {
      */
     @FXML
     public void onDeleteMapBtnClicked() {
+        System.out.println("onDeleteMapBtnClicked");
+        var selectedMapModel = mapList.getSelectionModel().getSelectedItem();
+        mapList.getItems().remove(selectedMapModel);
+
         // TODO
     }
 
@@ -99,7 +106,11 @@ public class StartController implements Initializable {
     @FXML
     public void onOpenMapBtnClicked() throws IOException {
         System.out.println("onOpenMapBtnClicked");
-        var mapEvent = new MapEvent(MapEvent.OPEN_MAP_EVENT_TYPE, MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map00.map")));
+        var selectedMapModel = mapList.getSelectionModel().getSelectedItem();
+        System.out.println(selectedMapModel.name());
+        var mapEvent = new MapEvent(MapEvent.OPEN_MAP_EVENT_TYPE, selectedMapModel);
+        Event.fireEvent(mapEvent.getTarget(), mapEvent);
+        mapEvent.notifyAll();
         // mapEvent.
         // System.out.println("hhahahaha");
         // TODO
@@ -114,6 +125,12 @@ public class StartController implements Initializable {
     @FXML
     public void onDragOver(DragEvent event) {
         // TODO
+        // System.out.println("onDragOver");
+        if (event.getDragboard().hasFiles()) {
+
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+        }
+        event.consume();
     }
 
     /**
@@ -129,6 +146,33 @@ public class StartController implements Initializable {
     @FXML
     public void onDragDropped(DragEvent dragEvent) {
         // TODO
+        System.out.println("onDragDropped");
+        Dragboard db = dragEvent.getDragboard();
+        System.out.println(db);
+
+        if (db.hasFiles()) {
+            db.getFiles().forEach(file -> {
+                if (!file.getName().substring(file.getName().lastIndexOf(".")).equals(".map")) {
+                    System.out.println("Handle wrong file here");
+                } else {
+                    var pathString = "file://" + file.getPath();
+                    try {
+                        this.mapList.getItems().add(MapModel.load(new URL(pathString)));
+                    } catch (IOException e ) {
+                        System.out.println("Error occured");
+                        System.out.println(e.toString());
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            });
+        }
+
+        dragEvent.setDropCompleted(true);
+        dragEvent.consume();
+
+
+
     }
 
 }
