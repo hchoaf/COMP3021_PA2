@@ -9,7 +9,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -71,16 +73,20 @@ public class StartController implements Initializable {
     private void onLoadMapBtnClicked(ActionEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(new Stage());
-        System.out.println(file.getName());
-        System.out.println(file.getPath());
-        var pathString = "file://" + file.getPath();
-        ZonedDateTime now = ZonedDateTime.now();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z yyyy");
-        System.out.println(dtf.format(now));
-        var mapModel = MapModel.load(new URL(pathString));
-        mapList.getItems().add(mapModel);
-        System.out.println(mapModel);
+        File targetFile = fileChooser.showOpenDialog(new Stage());
+
+        if (!targetFile.getName().substring(targetFile.getName().lastIndexOf(".")).equals(".map")) {
+            this.showInvalidMapAlert();
+        } else {
+            var pathString = "file://" + targetFile.getPath();
+            try {
+                mapList.getItems().remove(mapList.getItems().stream().filter(m -> m.file().toString().equals(targetFile.getPath())).findFirst().orElse(null));
+                this.mapList.getItems().add(MapModel.load(new URL(pathString)));
+            } catch (Exception e) {
+                this.showInvalidMapAlert();
+            }
+
+        }
         // TODO
 
     }
@@ -93,7 +99,9 @@ public class StartController implements Initializable {
     public void onDeleteMapBtnClicked() {
         System.out.println("onDeleteMapBtnClicked");
         var selectedMapModel = mapList.getSelectionModel().getSelectedItem();
-        mapList.getItems().remove(selectedMapModel);
+        if (selectedMapModel != null) {
+            mapList.getItems().remove(selectedMapModel);
+        }
 
         // TODO
     }
@@ -107,10 +115,12 @@ public class StartController implements Initializable {
     public void onOpenMapBtnClicked() throws IOException {
         System.out.println("onOpenMapBtnClicked");
         var selectedMapModel = mapList.getSelectionModel().getSelectedItem();
-        System.out.println(selectedMapModel.name());
-        var mapEvent = new MapEvent(MapEvent.OPEN_MAP_EVENT_TYPE, selectedMapModel);
-        Event.fireEvent(mapEvent.getTarget(), mapEvent);
-        mapEvent.notifyAll();
+        if (selectedMapModel != null) {
+            System.out.println(selectedMapModel.name());
+            openButton.fireEvent(new MapEvent(MapEvent.OPEN_MAP_EVENT_TYPE, selectedMapModel));
+
+            // Event.fireEvent(mapEvent.getTarget(), mapEvent);
+        }
         // mapEvent.
         // System.out.println("hhahahaha");
         // TODO
@@ -151,17 +161,16 @@ public class StartController implements Initializable {
         System.out.println(db);
 
         if (db.hasFiles()) {
-            db.getFiles().forEach(file -> {
-                if (!file.getName().substring(file.getName().lastIndexOf(".")).equals(".map")) {
-                    System.out.println("Handle wrong file here");
+            db.getFiles().forEach(targetFile -> {
+                if (!targetFile.getName().substring(targetFile.getName().lastIndexOf(".")).equals(".map")) {
+                    this.showInvalidMapAlert();
                 } else {
-                    var pathString = "file://" + file.getPath();
+                    var pathString = "file://" + targetFile.getPath();
                     try {
+                        mapList.getItems().remove(mapList.getItems().stream().filter(mapModel -> mapModel.file().toString().equals(targetFile.getPath())).findFirst().orElse(null));
                         this.mapList.getItems().add(MapModel.load(new URL(pathString)));
                     } catch (IOException e ) {
-                        System.out.println("Error occured");
-                        System.out.println(e.toString());
-                        throw new RuntimeException(e);
+                        this.showInvalidMapAlert();
                     }
                 }
 
@@ -173,6 +182,11 @@ public class StartController implements Initializable {
 
 
 
+    }
+
+    public void showInvalidMapAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Map File");
+        alert.showAndWait();
     }
 
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -37,6 +38,18 @@ public class GameBoardController implements RenderingEngine, Initializable {
     @Override
     public void render(@NotNull GameState state) {
         // TODO
+        // System.out.println("GameBoardController.render");
+        Runnable task = () -> {
+            Platform.runLater(() -> {
+                Cell cell = null;
+                try {
+                    cell = new Cell();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                map.getChildren().add(cell);
+            });
+        };
     }
 
     /**

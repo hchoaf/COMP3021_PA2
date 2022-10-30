@@ -3,6 +3,7 @@ package hk.ust.comp3021.gui.scene.game;
 import hk.ust.comp3021.game.GameState;
 import hk.ust.comp3021.gui.component.board.GameBoard;
 import hk.ust.comp3021.gui.component.control.ControlPanel;
+import hk.ust.comp3021.gui.component.maplist.MapEvent;
 import hk.ust.comp3021.gui.utils.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,6 +65,17 @@ public class GameSceneController implements Initializable {
      */
     @FXML
     public void onExit(ActionEvent event) {
+        System.out.println("onExit Clicked");
+        gameBoard.fireEvent(new ExitEvent());
         // TODO
+        /*
+        var selectedMapModel = mapList.getSelectionModel().getSelectedItem();
+        if (selectedMapModel != null) {
+            System.out.println(selectedMapModel.name());
+            openButton.fireEvent(new MapEvent(MapEvent.OPEN_MAP_EVENT_TYPE, selectedMapModel));
+
+            // Event.fireEvent(mapEvent.getTarget(), mapEvent);
+        }
+        */
     }
 }

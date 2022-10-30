@@ -22,7 +22,8 @@ public class CellController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO
-        image = new ImageView(String.valueOf(location));
+        System.out.println("CellController.initialize");
+        this.setImage(location);
     }
 
     /**
@@ -30,6 +31,7 @@ public class CellController implements Initializable {
      * Should be called when the cell is one of the  destinations and there is a box.
      */
     public void markAtDestination() {
+        System.out.println("CellController.markAtDestination");
         // TODO
     }
 
@@ -40,6 +42,7 @@ public class CellController implements Initializable {
      */
     public void setImage(@NotNull URL url) {
         // TODO
+        System.out.println("CellController.setImage");
         image = new ImageView(String.valueOf(url));
     }
 }

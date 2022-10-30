@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
  */
 public class App extends Application {
     private Stage primaryStage;
+    private Scene startScene;
 
     /**
      * Set up the primary stage and show the {@link StartScene}.
@@ -42,10 +43,18 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        var startScene = new StartScene();
-        this.primaryStage.setScene(new StartScene());
+        this.startScene = new StartScene();
+        this.startScene.addEventHandler(MapEvent.OPEN_MAP_EVENT_TYPE, e-> {
+            try {
+                onOpenMap(e);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         this.primaryStage.setTitle("Sokoban Game - COMP3021 2022Fall");
+        this.primaryStage.setScene(this.startScene);
+
         this.primaryStage.show();
         // TODO
     }
@@ -61,7 +70,9 @@ public class App extends Application {
 
         System.out.println("onOpenMap triggered.");
         // TODO
-        primaryStage.setScene(new GameScene(new GameState(event.getModel().gameMap())));
+        Scene gameScene = new GameScene(new GameState(event.getModel().gameMap()));
+        gameScene.addEventHandler(ExitEvent.EVENT_TYPE, this::onExitGame);
+        primaryStage.setScene(gameScene);
 
     }
 
@@ -72,6 +83,9 @@ public class App extends Application {
      * @param event The event data related to exiting the game.
      */
     public void onExitGame(ExitEvent event) {
+        System.out.println("onExitGame triggered.");
+        primaryStage.setScene(this.startScene);
+        // primaryStage.setScene(new S)
         // TODO
     }
 }

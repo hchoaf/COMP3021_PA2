@@ -1,6 +1,7 @@
 package hk.ust.comp3021.gui.component.control;
 
 import hk.ust.comp3021.actions.Action;
+import hk.ust.comp3021.actions.InvalidInput;
 import hk.ust.comp3021.entities.Player;
 import hk.ust.comp3021.game.InputEngine;
 import hk.ust.comp3021.utils.NotImplementedException;
@@ -31,7 +32,9 @@ public class ControlPanelController implements Initializable, InputEngine {
     @Override
     public @NotNull Action fetchAction() {
         // TODO
+        System.out.println("ControlPanelController.fetchAction");
         throw new NotImplementedException();
+        // return new InvalidInput(0, "invalid");
     }
 
     /**
