@@ -4,14 +4,18 @@ import hk.ust.comp3021.actions.Action;
 import hk.ust.comp3021.actions.InvalidInput;
 import hk.ust.comp3021.entities.Player;
 import hk.ust.comp3021.game.InputEngine;
+import hk.ust.comp3021.gui.component.maplist.MapEvent;
 import hk.ust.comp3021.utils.NotImplementedException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -23,6 +27,7 @@ public class ControlPanelController implements Initializable, InputEngine {
     @FXML
     private FlowPane playerControls;
 
+    ArrayList<Action> actions = new ArrayList<>();
     /**
      * Fetch the next action made by users.
      * All the actions performed by users should be cached in this class and returned by this method.
@@ -31,7 +36,26 @@ public class ControlPanelController implements Initializable, InputEngine {
      */
     @Override
     public @NotNull Action fetchAction() {
+        System.out.println("fetchaction called");
+        return actions.get(0);
+        /*
+        this.playerControls.addEventHandler();
+
+
+
+        this.startScene.addEventHandler(MapEvent.OPEN_MAP_EVENT_TYPE, e-> {
+            try {
+                onOpenMap(e);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+
+         */
         // TODO
+
+
         System.out.println("ControlPanelController.fetchAction");
         throw new NotImplementedException();
         // return new InvalidInput(0, "invalid");
@@ -57,6 +81,8 @@ public class ControlPanelController implements Initializable, InputEngine {
      * @param event Event data related to clicking the button.
      */
     public void onUndo(ActionEvent event) {
+        System.out.println("onUndo triggered");
+
         // TODO
     }
 
@@ -69,6 +95,15 @@ public class ControlPanelController implements Initializable, InputEngine {
      */
     public void addPlayer(Player player, URL playerImageUrl) {
         // TODO
+        try {
+            var movementButtonGroup = new MovementButtonGroup();
+            movementButtonGroup.getController().setPlayer(player);
+            movementButtonGroup.getController().setPlayerImage(playerImageUrl);
+
+            playerControls.getChildren().addAll(movementButtonGroup);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

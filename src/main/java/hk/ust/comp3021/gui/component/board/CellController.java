@@ -3,10 +3,12 @@ package hk.ust.comp3021.gui.component.board;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -23,7 +25,8 @@ public class CellController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // TODO
         System.out.println("CellController.initialize");
-        this.setImage(location);
+        // System.out.println(location);
+        // this.setImage(location);
     }
 
     /**
@@ -41,8 +44,7 @@ public class CellController implements Initializable {
      * @param url The URL to the image.
      */
     public void setImage(@NotNull URL url) {
-        // TODO
-        System.out.println("CellController.setImage");
-        image = new ImageView(String.valueOf(url));
+        Image image = new Image(url.toString().substring(7));
+        this.image.setImage(image);
     }
 }

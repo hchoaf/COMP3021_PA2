@@ -1,6 +1,7 @@
 package hk.ust.comp3021.gui.component.maplist;
 
 import hk.ust.comp3021.game.GameMap;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
