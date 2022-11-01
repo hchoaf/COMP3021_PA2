@@ -89,7 +89,7 @@ If any uncaught exception occurs during the demonstration, you will get 0 for th
       map list~~.
     - (20%) Load Map
         - ~~(3%) `Load Map` button should open a file chooser to select a map file.~~
-        - (2%) If an invalid map file is given, an error message should be displayed.
+        - ~~(2%) If an invalid map file is given, an error message should be displayed.~~
         - ~~(5%) If a valid map file is selected, the map should be added in the map list.~~
         - ~~(5%) The map list should be sorted according to the timestamp of loading each map.~~
         - ~~(5%) Loading the same map should override the previous one (duplication is decided by the absolute path of map
@@ -97,9 +97,8 @@ If any uncaught exception occurs during the demonstration, you will get 0 for th
     - (5%) Drag map files
         - ~~Dragging files to the start scene should work the same as clicking `Load Map` button.~~
         - ~~(2%) Dragging multiple files should supported to load multiple map files at once.~~
-        - (1%) When any dragged file is invalid, an error message should be displayed for this invalid file.
-        - (2%) Even if some dragged map files are invalid, other valid files should be processed.
-    - **Handling Invalid Maps - File format check done. Wrong content of the map file not done yet**
+        - ~~(1%) When any dragged file is invalid, an error message should be displayed for this invalid file.~~
+        - ~~(2%) Even if some dragged map files are invalid, other valid files should be processed.~~
     - (5%) Open Map
         - ~~(1%) `Open Map` button should be disabled when no map is selected in the map list.~~
         - ~~(1%) `Open Map` button should be enabled when a map is selected in the map list.~~

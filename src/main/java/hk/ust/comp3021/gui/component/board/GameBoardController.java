@@ -90,11 +90,12 @@ public class GameBoardController implements RenderingEngine, Initializable {
                 });
             }
         }
+
         Platform.runLater(() -> {
             if (state.getUndoQuota().isPresent()) {
-                map.add(new Text("UndoQuota: "+state.getUndoQuota().get()), 0, state.getMapMaxHeight()+1);
+                map.add(new Text("Undo Quota: "+state.getUndoQuota().get()), 0, state.getMapMaxHeight(), 6, 1);
             } else {
-                map.add(new Text("UndoQuota: Infinite"), 0, state.getMapMaxHeight()+1);
+                map.add(new Text("Undo Quota: Infinite"), 0, state.getMapMaxHeight(), 6, 1);
             }
         });
 

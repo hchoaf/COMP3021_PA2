@@ -39,7 +39,7 @@ public class MovementButtonGroupController implements Initializable {
      * @param url The URL.
      */
     public void setPlayerImage(URL url) {
-        contro
+
         this.playerImage.setImage(new Image(url.toExternalForm()));
         // TODO
     }
@@ -48,8 +48,6 @@ public class MovementButtonGroupController implements Initializable {
     private void moveUp() {
         var action = new Move.Up(player.getId());
         System.out.printf("Player %d moveUp\n", player.getId());
-
-
 
         // TODO
     }

@@ -45,7 +45,8 @@ public class MapListController implements Initializable {
 
             var mapModelOne = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map00.map"));
             var mapModelTwo = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map01.map"));
-            list.getItems().addAll(mapModelOne, mapModelTwo);
+            var mapModelThree = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map02.map"));
+            list.getItems().addAll(mapModelOne, mapModelTwo, mapModelThree);
             // list.setCellFactory(cell -> new MapListCell());
             list.getItems().sort(new Comparator<MapModel>() {
                 @Override

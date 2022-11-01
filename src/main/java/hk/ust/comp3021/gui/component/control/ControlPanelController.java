@@ -37,7 +37,7 @@ public class ControlPanelController implements Initializable, InputEngine {
     @Override
     public @NotNull Action fetchAction() {
         System.out.println("fetchaction called");
-        return actions.get(0);
+        // return actions.get(0);
         /*
         this.playerControls.addEventHandler();
 
@@ -50,13 +50,15 @@ public class ControlPanelController implements Initializable, InputEngine {
                 throw new RuntimeException(ex);
             }
         });
+        Re
 
 
          */
+
         // TODO
 
 
-        System.out.println("ControlPanelController.fetchAction");
+        // System.out.println("ControlPanelController.fetchAction");
         throw new NotImplementedException();
         // return new InvalidInput(0, "invalid");
     }

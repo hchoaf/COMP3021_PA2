@@ -1,17 +1,13 @@
 package hk.ust.comp3021.gui.scene.start;
 
-import hk.ust.comp3021.game.GameMap;
 import hk.ust.comp3021.gui.component.maplist.MapEvent;
 import hk.ust.comp3021.gui.component.maplist.MapList;
 import hk.ust.comp3021.gui.component.maplist.MapModel;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -20,12 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -74,19 +65,7 @@ public class StartController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File targetFile = fileChooser.showOpenDialog(new Stage());
-
-        if (!targetFile.getName().substring(targetFile.getName().lastIndexOf(".")).equals(".map")) {
-            this.showInvalidMapAlert();
-        } else {
-            var pathString = "file://" + targetFile.getPath();
-            try {
-                mapList.getItems().remove(mapList.getItems().stream().filter(m -> m.file().toString().equals(targetFile.getPath())).findFirst().orElse(null));
-                this.mapList.getItems().add(MapModel.load(new URL(pathString)));
-            } catch (Exception e) {
-                this.showInvalidMapAlert();
-            }
-
-        }
+        this.handleFile(targetFile);
         // TODO
 
     }
@@ -161,28 +140,36 @@ public class StartController implements Initializable {
         System.out.println(db);
 
         if (db.hasFiles()) {
-            db.getFiles().forEach(targetFile -> {
-                if (!targetFile.getName().substring(targetFile.getName().lastIndexOf(".")).equals(".map")) {
-                    this.showInvalidMapAlert();
-                } else {
-                    var pathString = "file://" + targetFile.getPath();
-                    try {
-                        mapList.getItems().remove(mapList.getItems().stream().filter(mapModel -> mapModel.file().toString().equals(targetFile.getPath())).findFirst().orElse(null));
-                        this.mapList.getItems().add(MapModel.load(new URL(pathString)));
-                    } catch (IOException e ) {
-                        this.showInvalidMapAlert();
-                    }
-                }
-
-            });
+            db.getFiles().forEach(this::handleFile);
         }
-
         dragEvent.setDropCompleted(true);
         dragEvent.consume();
-
-
-
     }
+
+    /**
+     * Handle the file when it is loaded. <p>
+     * Should show error message popup on invalid file extension or invalid map
+     * If map does not exist in mapList (check absolutePath), add to mapList
+     * If already exists, update the loaded time.
+     *
+     * </p>
+     * @param targetFile The map file
+     */
+    public void handleFile(File targetFile) {
+        if (!targetFile.getName().substring(targetFile.getName().lastIndexOf(".")).equals(".map")) {
+            this.showInvalidMapAlert();
+        } else {
+            var pathString = "file://" + targetFile.getPath();
+            try {
+                mapList.getItems().remove(mapList.getItems().stream().filter(mapModel -> mapModel.file().toString().equals(targetFile.getPath())).findFirst().orElse(null));
+                this.mapList.getItems().add(MapModel.load(new URL(pathString)));
+            } catch (Exception e ) {
+                this.showInvalidMapAlert();
+            }
+        }
+    }
+
+
 
     public void showInvalidMapAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Map File");
