@@ -79,7 +79,6 @@ public class GameBoardController implements RenderingEngine, Initializable {
                             case null:
                                 yield "empty.png";
                         };
-                        System.out.println(imageFilePath);
                         cell.getController().setImage(new URL("file://components/img/"+imageFilePath));
                         map.add(cell, finalX, finalY);
                         // map.add(new TextField("af"), finalX, finalY);

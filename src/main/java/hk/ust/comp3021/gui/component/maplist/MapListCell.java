@@ -14,8 +14,6 @@ public class MapListCell extends ListCell<MapModel> {
     @Override
     protected void updateItem(MapModel item, boolean empty) {
         System.out.println("UpdateItem called");
-        System.out.println(item);
-        System.out.println(empty);
         super.updateItem(item, empty);
         if (empty || item == null) {
             setText(null);
@@ -26,8 +24,8 @@ public class MapListCell extends ListCell<MapModel> {
                 final var node = loader.<GridPane>load();
                 setGraphic(node);
                 final var controller = loader.<MapListItemController>getController();
-                System.out.println(item);
                 controller.getMapModelProperty().setValue(item);
+                System.out.println(controller.getMapModelProperty());
             } catch (IOException e) {
                 throw new RuntimeException("Failed to load game map list item", e);
             }

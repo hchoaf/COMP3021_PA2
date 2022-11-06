@@ -24,7 +24,7 @@ public class CellController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO
-        System.out.println("CellController.initialize");
+        // System.out.println("CellController.initialize");
         // System.out.println(location);
         // this.setImage(location);
     }

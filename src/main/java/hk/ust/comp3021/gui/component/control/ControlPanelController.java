@@ -2,10 +2,15 @@ package hk.ust.comp3021.gui.component.control;
 
 import hk.ust.comp3021.actions.Action;
 import hk.ust.comp3021.actions.InvalidInput;
+import hk.ust.comp3021.actions.Undo;
 import hk.ust.comp3021.entities.Player;
 import hk.ust.comp3021.game.InputEngine;
 import hk.ust.comp3021.gui.component.maplist.MapEvent;
 import hk.ust.comp3021.utils.NotImplementedException;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,8 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Control logic for a {@link ControlPanel}.
@@ -27,7 +31,9 @@ public class ControlPanelController implements Initializable, InputEngine {
     @FXML
     private FlowPane playerControls;
 
-    ArrayList<Action> actions = new ArrayList<>();
+
+    public static ObservableList<Action> actionObservableList = FXCollections.observableArrayList();
+
     /**
      * Fetch the next action made by users.
      * All the actions performed by users should be cached in this class and returned by this method.
@@ -36,30 +42,18 @@ public class ControlPanelController implements Initializable, InputEngine {
      */
     @Override
     public @NotNull Action fetchAction() {
-        System.out.println("fetchaction called");
-        // return actions.get(0);
-        /*
-        this.playerControls.addEventHandler();
+        while (actionObservableList.isEmpty()){
+            System.out.println(actionObservableList);
 
-
-
-        this.startScene.addEventHandler(MapEvent.OPEN_MAP_EVENT_TYPE, e-> {
-            try {
-                onOpenMap(e);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-        Re
-
-
-         */
+        }
+        System.out.println("FetchAction");
+        return actionObservableList.get(0);
 
         // TODO
 
 
         // System.out.println("ControlPanelController.fetchAction");
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
         // return new InvalidInput(0, "invalid");
     }
 
@@ -73,6 +67,19 @@ public class ControlPanelController implements Initializable, InputEngine {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("ControlPanelController initialized");
+        actionObservableList.addListener((ListChangeListener<Action>) c -> {
+            while (c.next()) {
+                if (c.wasPermutated()) {
+                    for (int i = c.getFrom(); i < c.getTo(); ++i) {
+                        // permutate
+                        System.out.println("permutate");
+                    }
+                } else if (c.wasAdded()) {
+                    actionObservableList.remove(0);
+                }
+            }
+        });
         // TODO
     }
 
@@ -84,6 +91,7 @@ public class ControlPanelController implements Initializable, InputEngine {
      */
     public void onUndo(ActionEvent event) {
         System.out.println("onUndo triggered");
+        actionObservableList.add(new Undo(-1));
 
         // TODO
     }

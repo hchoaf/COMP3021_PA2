@@ -1,5 +1,7 @@
 package hk.ust.comp3021.gui.component.maplist;
 
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -40,8 +42,6 @@ public class MapListItemController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.printf("MapListItemController Intialized with URL %s \n", location.toString());
-        // TODO
-
     }
 
     /**

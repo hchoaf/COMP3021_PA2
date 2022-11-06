@@ -1,21 +1,16 @@
 package hk.ust.comp3021.gui.component.maplist;
 
-import hk.ust.comp3021.game.GameMap;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
@@ -25,6 +20,8 @@ import java.util.ResourceBundle;
 public class MapListController implements Initializable {
     @FXML
     private ListView<MapModel> list;
+
+    private final ObservableList<MapModel> mapModelObservableList = FXCollections.observableArrayList();
 
     /**
      * Initialize the controller.
@@ -42,18 +39,15 @@ public class MapListController implements Initializable {
         // list.setCellFactory(cell -> new MapListCell());
         System.out.printf("MapListController initialized with URL: %s \n", location.toString());
         try {
-
             var mapModelOne = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map00.map"));
             var mapModelTwo = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map01.map"));
             var mapModelThree = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map02.map"));
-            list.getItems().addAll(mapModelOne, mapModelTwo, mapModelThree);
+            mapModelObservableList.addAll(mapModelOne, mapModelTwo, mapModelThree);
+            list.setItems(mapModelObservableList);
+
+            list.setCellFactory(cell -> new MapListCell());
             // list.setCellFactory(cell -> new MapListCell());
-            list.getItems().sort(new Comparator<MapModel>() {
-                @Override
-                public int compare(MapModel o1, MapModel o2) {
-                    return o1.loadAt().compareTo(o2.loadAt());
-                }
-            });
+            list.getItems().sort(Comparator.comparing(MapModel::loadAt));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
