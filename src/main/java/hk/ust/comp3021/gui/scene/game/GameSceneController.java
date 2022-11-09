@@ -65,17 +65,7 @@ public class GameSceneController implements Initializable {
      */
     @FXML
     public void onExit(ActionEvent event) {
-        System.out.println("onExit Clicked");
-        gameBoard.fireEvent(new ExitEvent());
         // TODO
-        /*
-        var selectedMapModel = mapList.getSelectionModel().getSelectedItem();
-        if (selectedMapModel != null) {
-            System.out.println(selectedMapModel.name());
-            openButton.fireEvent(new MapEvent(MapEvent.OPEN_MAP_EVENT_TYPE, selectedMapModel));
-
-            // Event.fireEvent(mapEvent.getTarget(), mapEvent);
-        }
-        */
+        gameBoard.fireEvent(new ExitEvent());
     }
 }

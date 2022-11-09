@@ -32,9 +32,6 @@ public class StartController implements Initializable {
     @FXML
     private Button openButton;
 
-    private URL location;
-
-    private ResourceBundle resources;
 
     /**
      * Initialize the controller.
@@ -48,8 +45,8 @@ public class StartController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO
-        this.location = location;
-        this.resources = resources;
+        // this.location = location;
+        // this.resources = resources;
 
     }
 
@@ -76,13 +73,11 @@ public class StartController implements Initializable {
      */
     @FXML
     public void onDeleteMapBtnClicked() {
-        System.out.println("onDeleteMapBtnClicked");
+        // TODO
         var selectedMapModel = mapList.getSelectionModel().getSelectedItem();
         if (selectedMapModel != null) {
             mapList.getItems().remove(selectedMapModel);
         }
-
-        // TODO
     }
 
     /**
@@ -92,16 +87,11 @@ public class StartController implements Initializable {
      */
     @FXML
     public void onOpenMapBtnClicked() throws IOException {
-        System.out.println("onOpenMapBtnClicked");
+        // TODO
         var selectedMapModel = mapList.getSelectionModel().getSelectedItem();
         if (selectedMapModel != null) {
-            System.out.println(selectedMapModel.name());
             openButton.fireEvent(new MapEvent(MapEvent.OPEN_MAP_EVENT_TYPE, selectedMapModel));
-
-            // Event.fireEvent(mapEvent.getTarget(), mapEvent);
         }
-        // mapEvent.
-        // System.out.println("hhahahaha");
         // TODO
     }
 
@@ -114,7 +104,6 @@ public class StartController implements Initializable {
     @FXML
     public void onDragOver(DragEvent event) {
         // TODO
-        // System.out.println("onDragOver");
         if (event.getDragboard().hasFiles()) {
 
             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -135,9 +124,7 @@ public class StartController implements Initializable {
     @FXML
     public void onDragDropped(DragEvent dragEvent) {
         // TODO
-        System.out.println("onDragDropped");
         Dragboard db = dragEvent.getDragboard();
-        System.out.println(db);
 
         if (db.hasFiles()) {
             db.getFiles().forEach(this::handleFile);
@@ -161,8 +148,17 @@ public class StartController implements Initializable {
         } else {
             var pathString = "file://" + targetFile.getPath();
             try {
+                var newMapModel = MapModel.load(new URL(pathString));
+                if (newMapModel.gameMap().getPlayerIds().size() > 4) {
+                    throw new RuntimeException("Players more than 4.");
+                }
+                for (Integer i : newMapModel.gameMap().getPlayerIds()) {
+                    if (!i.equals(0) & !i.equals(1) & !i.equals(2) & !i.equals(3)) {
+                        throw new RuntimeException("Wrong Player in the map.");
+                    }
+                }
                 mapList.getItems().remove(mapList.getItems().stream().filter(mapModel -> mapModel.file().toString().equals(targetFile.getPath())).findFirst().orElse(null));
-                this.mapList.getItems().add(MapModel.load(new URL(pathString)));
+                this.mapList.getItems().add(newMapModel);
             } catch (Exception e ) {
                 this.showInvalidMapAlert();
             }
@@ -170,7 +166,9 @@ public class StartController implements Initializable {
     }
 
 
-
+    /**
+     * Create an alert message box.
+     */
     public void showInvalidMapAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Map File");
         alert.showAndWait();

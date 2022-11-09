@@ -2,11 +2,14 @@ package hk.ust.comp3021.gui.component.control;
 
 import hk.ust.comp3021.actions.Action;
 import hk.ust.comp3021.actions.InvalidInput;
+import hk.ust.comp3021.actions.Move;
 import hk.ust.comp3021.actions.Undo;
 import hk.ust.comp3021.entities.Player;
 import hk.ust.comp3021.game.InputEngine;
 import hk.ust.comp3021.gui.component.maplist.MapEvent;
+import hk.ust.comp3021.gui.scene.game.GUISokobanGame;
 import hk.ust.comp3021.utils.NotImplementedException;
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -21,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Control logic for a {@link ControlPanel}.
@@ -31,8 +36,9 @@ public class ControlPanelController implements Initializable, InputEngine {
     @FXML
     private FlowPane playerControls;
 
+    private LinkedBlockingQueue<Action> actionQueue = new LinkedBlockingQueue<>();
 
-    public static ObservableList<Action> actionObservableList = FXCollections.observableArrayList();
+
 
     /**
      * Fetch the next action made by users.
@@ -42,19 +48,12 @@ public class ControlPanelController implements Initializable, InputEngine {
      */
     @Override
     public @NotNull Action fetchAction() {
-        while (actionObservableList.isEmpty()){
-            System.out.println(actionObservableList);
-
-        }
-        System.out.println("FetchAction");
-        return actionObservableList.get(0);
-
         // TODO
-
-
-        // System.out.println("ControlPanelController.fetchAction");
-        // throw new NotImplementedException();
-        // return new InvalidInput(0, "invalid");
+        try {
+            return actionQueue.take();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -67,19 +66,6 @@ public class ControlPanelController implements Initializable, InputEngine {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("ControlPanelController initialized");
-        actionObservableList.addListener((ListChangeListener<Action>) c -> {
-            while (c.next()) {
-                if (c.wasPermutated()) {
-                    for (int i = c.getFrom(); i < c.getTo(); ++i) {
-                        // permutate
-                        System.out.println("permutate");
-                    }
-                } else if (c.wasAdded()) {
-                    actionObservableList.remove(0);
-                }
-            }
-        });
         // TODO
     }
 
@@ -90,10 +76,8 @@ public class ControlPanelController implements Initializable, InputEngine {
      * @param event Event data related to clicking the button.
      */
     public void onUndo(ActionEvent event) {
-        System.out.println("onUndo triggered");
-        actionObservableList.add(new Undo(-1));
-
         // TODO
+        actionQueue.add(new Undo(-1));
     }
 
     /**
@@ -109,6 +93,14 @@ public class ControlPanelController implements Initializable, InputEngine {
             var movementButtonGroup = new MovementButtonGroup();
             movementButtonGroup.getController().setPlayer(player);
             movementButtonGroup.getController().setPlayerImage(playerImageUrl);
+            movementButtonGroup.getController().actionObservableList.addListener((ListChangeListener<Action>) c -> {
+                while (c.next()) {
+                    if (c.wasAdded()) {
+                        actionQueue.add(movementButtonGroup.getController().actionObservableList.get(0));
+                        movementButtonGroup.getController().actionObservableList.remove(0);
+                    }
+                }
+            });
 
             playerControls.getChildren().addAll(movementButtonGroup);
         } catch (IOException e) {

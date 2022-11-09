@@ -4,6 +4,7 @@ import hk.ust.comp3021.actions.Action;
 import hk.ust.comp3021.actions.Move;
 import hk.ust.comp3021.entities.Player;
 import hk.ust.comp3021.gui.component.maplist.MapModel;
+import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -30,6 +31,11 @@ public class MovementButtonGroupController implements Initializable {
 
     private Player player = null;
 
+    /**
+     * Observable List of actions.
+     */
+    public ObservableList<Action> actionObservableList= FXCollections.observableArrayList();
+
 
     /**
      * Sets the player controller by the button group.
@@ -53,31 +59,25 @@ public class MovementButtonGroupController implements Initializable {
 
     @FXML
     private void moveUp() {
-        System.out.printf("Player %d moveUp\n", player.getId());
-        ControlPanelController.actionObservableList.add(new Move.Up(player.getId()));
-
         // TODO
+        actionObservableList.add(new Move.Up(player.getId()));
     }
 
     @FXML
     private void moveDown() {
-        // TODO
-        System.out.printf("Player %d moveDown\n", player.getId());
-        ControlPanelController.actionObservableList.add(new Move.Down(player.getId()));
+        actionObservableList.add(new Move.Down(player.getId()));
     }
 
     @FXML
     private void moveLeft() {
         // TODO
-        System.out.printf("Player %d moveLeft\n", player.getId());
-        ControlPanelController.actionObservableList.add(new Move.Left(player.getId()));
+        actionObservableList.add(new Move.Left(player.getId()));
     }
 
     @FXML
     private void moveRight() {
         // TODO
-        System.out.printf("Player %d moveRight\n", player.getId());
-        ControlPanelController.actionObservableList.add(new Move.Right(player.getId()));
+        actionObservableList.add(new Move.Right(player.getId()));
     }
 
     @Override

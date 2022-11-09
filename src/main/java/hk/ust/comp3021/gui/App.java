@@ -9,11 +9,13 @@ import hk.ust.comp3021.gui.scene.game.GameScene;
 import hk.ust.comp3021.gui.scene.start.StartController;
 import hk.ust.comp3021.gui.scene.start.StartScene;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,6 +46,10 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
+        this.primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
         this.startScene = new StartScene();
         this.startScene.addEventHandler(MapEvent.OPEN_MAP_EVENT_TYPE, e-> {
             try {
@@ -69,8 +75,6 @@ public class App extends Application {
      * @param event The event data related to the map being opened.
      */
     public void onOpenMap(MapEvent event) throws Exception{
-
-        System.out.println("onOpenMap triggered.");
         // TODO
         Scene gameScene = new GameScene(new GameState(event.getModel().gameMap()));
         gameScene.addEventHandler(ExitEvent.EVENT_TYPE, this::onExitGame);
@@ -85,9 +89,7 @@ public class App extends Application {
      * @param event The event data related to exiting the game.
      */
     public void onExitGame(ExitEvent event) {
-        System.out.println("onExitGame triggered.");
-        primaryStage.setScene(this.startScene);
-        // primaryStage.setScene(new S)
         // TODO
+        primaryStage.setScene(this.startScene);
     }
 }

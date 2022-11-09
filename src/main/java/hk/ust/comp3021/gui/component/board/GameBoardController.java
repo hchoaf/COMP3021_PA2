@@ -9,6 +9,10 @@ import hk.ust.comp3021.game.Position;
 import hk.ust.comp3021.game.RenderingEngine;
 import hk.ust.comp3021.gui.utils.Message;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableNumberValue;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -25,6 +29,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static hk.ust.comp3021.utils.StringResources.UNDO_QUOTA_TEMPLATE;
+import static hk.ust.comp3021.utils.StringResources.UNDO_QUOTA_UNLIMITED;
 
 /**
  * Control logic for a {@link GameBoard}.
@@ -50,9 +57,7 @@ public class GameBoardController implements RenderingEngine, Initializable {
     @Override
     public void render(@NotNull GameState state) {
 
-
         // TODO
-        // System.out.println("GameBoardController.render");
         for (int x = 0; x < state.getMapMaxWidth(); x++) {
             for (int y = 0; y < state.getMapMaxHeight(); y++) {
                 int finalX = x;
@@ -67,6 +72,9 @@ public class GameBoardController implements RenderingEngine, Initializable {
                             case Wall ignored1:
                                 yield "wall.png";
                             case Box b:
+                                if (state.getDestinations().contains(Position.of(finalX, finalY))) {
+                                    cell.getController().markAtDestination();
+                                }
                                 yield String.format("box-%d.png", b.getPlayerId());
                             case Player p:
                                 yield String.format("player-%d.png", p.getId());
@@ -89,14 +97,14 @@ public class GameBoardController implements RenderingEngine, Initializable {
                 });
             }
         }
-
         Platform.runLater(() -> {
             if (state.getUndoQuota().isPresent()) {
-                map.add(new Text("Undo Quota: "+state.getUndoQuota().get()), 0, state.getMapMaxHeight(), 6, 1);
+                undoQuota.setText(String.format(UNDO_QUOTA_TEMPLATE, state.getUndoQuota().get()));
             } else {
-                map.add(new Text("Undo Quota: Infinite"), 0, state.getMapMaxHeight(), 6, 1);
+                undoQuota.setText(String.format(UNDO_QUOTA_TEMPLATE, UNDO_QUOTA_UNLIMITED));
             }
         });
+
 
 
 

@@ -32,10 +32,7 @@ public class GUISokobanGame extends AbstractSokobanGame implements Runnable {
     public void run() {
         renderingEngine.render(state);
         while (!shouldStop()) {
-            System.out.println("====================================================");
             final var action = inputEngine.fetchAction();
-            System.out.print("====");
-            System.out.println(action);
             final var result = processAction(action);
             if (result instanceof ActionResult.Failed failure) {
                 renderingEngine.message(failure.getReason());
