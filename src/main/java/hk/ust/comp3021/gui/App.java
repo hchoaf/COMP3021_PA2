@@ -1,31 +1,14 @@
 package hk.ust.comp3021.gui;
 
-import hk.ust.comp3021.game.GameMap;
 import hk.ust.comp3021.game.GameState;
 import hk.ust.comp3021.gui.component.maplist.MapEvent;
-import hk.ust.comp3021.gui.component.maplist.MapModel;
 import hk.ust.comp3021.gui.scene.game.ExitEvent;
 import hk.ust.comp3021.gui.scene.game.GameScene;
-import hk.ust.comp3021.gui.scene.start.StartController;
 import hk.ust.comp3021.gui.scene.start.StartScene;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * The JavaFX application that launches the game.
@@ -51,7 +34,7 @@ public class App extends Application {
             System.exit(0);
         });
         this.startScene = new StartScene();
-        this.startScene.addEventHandler(MapEvent.OPEN_MAP_EVENT_TYPE, e-> {
+        this.startScene.addEventHandler(MapEvent.OPEN_MAP_EVENT_TYPE, e -> {
             try {
                 onOpenMap(e);
             } catch (Exception ex) {
@@ -74,7 +57,7 @@ public class App extends Application {
      *
      * @param event The event data related to the map being opened.
      */
-    public void onOpenMap(MapEvent event) throws Exception{
+    public void onOpenMap(MapEvent event) throws Exception {
         // TODO
         Scene gameScene = new GameScene(new GameState(event.getModel().gameMap()));
         gameScene.addEventHandler(ExitEvent.EVENT_TYPE, this::onExitGame);

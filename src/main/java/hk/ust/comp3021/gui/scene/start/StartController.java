@@ -62,7 +62,11 @@ public class StartController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File targetFile = fileChooser.showOpenDialog(new Stage());
-        this.handleFile(targetFile);
+        try {
+            this.handleFile(targetFile);
+        } catch (Exception e) {
+            this.showInvalidMapAlert();
+        }
         // TODO
 
     }
@@ -105,7 +109,6 @@ public class StartController implements Initializable {
     public void onDragOver(DragEvent event) {
         // TODO
         if (event.getDragboard().hasFiles()) {
-
             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
         }
         event.consume();
@@ -127,7 +130,11 @@ public class StartController implements Initializable {
         Dragboard db = dragEvent.getDragboard();
 
         if (db.hasFiles()) {
-            db.getFiles().forEach(this::handleFile);
+            try {
+                db.getFiles().forEach(this::handleFile);
+            } catch (Exception e) {
+                this.showInvalidMapAlert();
+            }
         }
         dragEvent.setDropCompleted(true);
         dragEvent.consume();
@@ -140,10 +147,11 @@ public class StartController implements Initializable {
      * If already exists, update the loaded time.
      *
      * </p>
+     *
      * @param targetFile The map file
      */
     public void handleFile(File targetFile) {
-        if (!targetFile.getName().substring(targetFile.getName().lastIndexOf(".")).equals(".map")) {
+        if (targetFile == null || !targetFile.getName().substring(targetFile.getName().lastIndexOf(".")).equals(".map")) {
             this.showInvalidMapAlert();
         } else {
             var pathString = "file://" + targetFile.getPath();
@@ -157,9 +165,11 @@ public class StartController implements Initializable {
                         throw new RuntimeException("Wrong Player in the map.");
                     }
                 }
-                mapList.getItems().remove(mapList.getItems().stream().filter(mapModel -> mapModel.file().toString().equals(targetFile.getPath())).findFirst().orElse(null));
+                mapList.getItems().remove(mapList.getItems().stream().filter(mapModel ->
+                        mapModel.file().toString().equals(targetFile.getPath())).findFirst().orElse(null)
+                );
                 this.mapList.getItems().add(newMapModel);
-            } catch (Exception e ) {
+            } catch (Exception e) {
                 this.showInvalidMapAlert();
             }
         }

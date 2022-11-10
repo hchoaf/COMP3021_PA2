@@ -4,15 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.ComboBoxListCell;
-import javafx.scene.layout.GridPane;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -38,10 +35,12 @@ public class MapListController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            var mapModelOne = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map00.map"));
-            var mapModelTwo = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map01.map"));
-            var mapModelThree = MapModel.load(new URL("file:///Users/hscho/Desktop/College/4_1/COMP3021/PA2/src/main/resources/map02.map"));
+            var mapModelOne = MapModel.load(Objects.requireNonNull(getClass().getClassLoader().getResource("map00.map")));
+            var mapModelTwo = MapModel.load(Objects.requireNonNull(getClass().getClassLoader().getResource("map01.map")));
+            var mapModelThree = MapModel.load(Objects.requireNonNull(getClass().getClassLoader().getResource("map02.map")));
+
             mapModelObservableList.addAll(mapModelOne, mapModelTwo, mapModelThree);
+
             list.setItems(mapModelObservableList);
             list.setCellFactory(cell -> new MapListCell());
             list.getItems().sort(Comparator.comparing(MapModel::loadAt));

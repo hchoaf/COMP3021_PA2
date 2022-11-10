@@ -138,19 +138,19 @@ public class GameMap {
         // validate closed boundary map
         final var moves = new Move[]{new Move.Down(-1), new Move.Up(-1), new Move.Left(-1), new Move.Right(-1)};
         final var closedBoundary = map.entrySet().parallelStream()
-            .filter(entry -> !(entry.getValue() instanceof Wall))
-            .allMatch(entry -> Arrays.stream(moves)
-                .allMatch(m -> map.get(m.nextPosition(entry.getKey())) != null));
+                .filter(entry -> !(entry.getValue() instanceof Wall))
+                .allMatch(entry -> Arrays.stream(moves)
+                        .allMatch(m -> map.get(m.nextPosition(entry.getKey())) != null));
         if (!closedBoundary)
             throw new IllegalArgumentException("not a closed boundary map");
 
         final var allBoxes = map.values().stream()
-            .filter(Box.class::isInstance)
-            .map(Box.class::cast)
-            .collect(Collectors.toSet());
+                .filter(Box.class::isInstance)
+                .map(Box.class::cast)
+                .collect(Collectors.toSet());
         final var allReferencedPlayers = allBoxes.stream()
-            .map(Box::getPlayerId)
-            .collect(Collectors.toSet());
+                .map(Box::getPlayerId)
+                .collect(Collectors.toSet());
         if (undoLimit < -1)
             throw new IllegalArgumentException("invalid undo limit");
         if (players.size() == 0)
@@ -208,9 +208,9 @@ public class GameMap {
      */
     public Set<Integer> getPlayerIds() {
         return this.map.values().stream()
-            .filter(it -> it instanceof Player)
-            .map(it -> ((Player) it).getId())
-            .collect(Collectors.toSet());
+                .filter(it -> it instanceof Player)
+                .map(it -> ((Player) it).getId())
+                .collect(Collectors.toSet());
     }
 
     /**

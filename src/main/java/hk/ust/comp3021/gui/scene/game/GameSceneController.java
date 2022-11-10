@@ -3,7 +3,6 @@ package hk.ust.comp3021.gui.scene.game;
 import hk.ust.comp3021.game.GameState;
 import hk.ust.comp3021.gui.component.board.GameBoard;
 import hk.ust.comp3021.gui.component.control.ControlPanel;
-import hk.ust.comp3021.gui.component.maplist.MapEvent;
 import hk.ust.comp3021.gui.utils.Resource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,8 +48,8 @@ public class GameSceneController implements Initializable {
         this.game = new GUISokobanGame(gameState, controlPanel.getController(), gameBoard.getController());
         // generate player controls
         gameState.getAllPlayers().forEach(player -> this.controlPanel.getController().addPlayer(
-            player,
-            Resource.getPlayerImageURL(player.getId())
+                player,
+                Resource.getPlayerImageURL(player.getId())
         ));
 
         final var gameLoopThread = new Thread(game);

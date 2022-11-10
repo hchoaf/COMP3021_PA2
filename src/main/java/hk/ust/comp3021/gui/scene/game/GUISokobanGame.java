@@ -5,10 +5,7 @@ import hk.ust.comp3021.game.AbstractSokobanGame;
 import hk.ust.comp3021.game.GameState;
 import hk.ust.comp3021.game.InputEngine;
 import hk.ust.comp3021.game.RenderingEngine;
-import hk.ust.comp3021.gui.component.board.GameBoardController;
 import org.jetbrains.annotations.NotNull;
-
-import static hk.ust.comp3021.utils.StringResources.WIN_MESSAGE;
 
 /**
  * Java FX implementation of the Sokoban game.

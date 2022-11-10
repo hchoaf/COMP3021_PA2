@@ -3,10 +3,7 @@ package hk.ust.comp3021.gui.component.control;
 import hk.ust.comp3021.actions.Action;
 import hk.ust.comp3021.actions.Move;
 import hk.ust.comp3021.entities.Player;
-import hk.ust.comp3021.gui.component.maplist.MapModel;
-import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,8 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -34,7 +29,7 @@ public class MovementButtonGroupController implements Initializable {
     /**
      * Observable List of actions.
      */
-    public ObservableList<Action> actionObservableList= FXCollections.observableArrayList();
+    public ObservableList<Action> actionObservableList = FXCollections.observableArrayList();
 
 
     /**
@@ -61,10 +56,12 @@ public class MovementButtonGroupController implements Initializable {
     private void moveUp() {
         // TODO
         actionObservableList.add(new Move.Up(player.getId()));
+        // ControlPanelController.actionQueue.add(new Move.Up(player.getId()));
     }
 
     @FXML
     private void moveDown() {
+        // TODO
         actionObservableList.add(new Move.Down(player.getId()));
     }
 

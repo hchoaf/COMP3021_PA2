@@ -63,13 +63,14 @@ public class GameState {
 
     /**
      * Gets all the players in the game.
+     *
      * @return The set of all the players.
      */
     public @NotNull Set<Player> getAllPlayers() {
         return this.entities.values().stream()
-            .filter(entity -> entity instanceof Player)
-            .map(entity -> (Player) entity)
-            .collect(Collectors.toSet());
+                .filter(entity -> entity instanceof Player)
+                .map(entity -> (Player) entity)
+                .collect(Collectors.toSet());
     }
 
     /**

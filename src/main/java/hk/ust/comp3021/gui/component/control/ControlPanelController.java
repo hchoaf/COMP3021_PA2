@@ -1,30 +1,19 @@
 package hk.ust.comp3021.gui.component.control;
 
 import hk.ust.comp3021.actions.Action;
-import hk.ust.comp3021.actions.InvalidInput;
-import hk.ust.comp3021.actions.Move;
 import hk.ust.comp3021.actions.Undo;
 import hk.ust.comp3021.entities.Player;
 import hk.ust.comp3021.game.InputEngine;
-import hk.ust.comp3021.gui.component.maplist.MapEvent;
-import hk.ust.comp3021.gui.scene.game.GUISokobanGame;
-import hk.ust.comp3021.utils.NotImplementedException;
-import javafx.animation.PauseTransition;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.ResourceBundle;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -36,9 +25,7 @@ public class ControlPanelController implements Initializable, InputEngine {
     @FXML
     private FlowPane playerControls;
 
-    private LinkedBlockingQueue<Action> actionQueue = new LinkedBlockingQueue<>();
-
-
+    private final LinkedBlockingQueue<Action> actionQueue = new LinkedBlockingQueue<>();
 
     /**
      * Fetch the next action made by users.

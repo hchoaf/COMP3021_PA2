@@ -50,9 +50,10 @@ public class SokobanGameFactory {
 
     /**
      * Creates a GUI game wrapper.
+     *
      * @return A JavaFX game wrapper.
      */
-    public static @NotNull SokobanGame createGUIGame(){
+    public static @NotNull SokobanGame createGUIGame() {
         return new JavaFXGameWrapper();
     }
 

@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Line;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -27,6 +26,8 @@ public class CellController implements Initializable {
         // TODO
     }
 
+    private URL previousURL;
+
     /**
      * Adds a check mark to the cell.
      * Should be called when the cell is one of the  destinations and there is a box.
@@ -42,7 +43,10 @@ public class CellController implements Initializable {
      * @param url The URL to the image.
      */
     public void setImage(@NotNull URL url) {
-        Image image = new Image(url.toString().substring(7));
-        this.image.setImage(image);
+        mark.setText("");
+        if (!url.equals(previousURL)) {
+            this.image.setImage(new Image(String.valueOf(url)));
+            previousURL = url;
+        }
     }
 }

@@ -41,8 +41,8 @@ public abstract class AbstractSokobanGame implements SokobanGame {
             case InvalidInput i -> new ActionResult.Failed(action, i.getMessage());
             case Undo ignored -> {
                 final var shouldUndo = this.state.getUndoQuota()
-                    .map(it -> it > 0)
-                    .orElse(true);
+                        .map(it -> it > 0)
+                        .orElse(true);
                 if (shouldUndo) {
                     this.state.undo();
                     yield new ActionResult.Success(action);
