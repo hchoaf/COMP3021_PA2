@@ -37,9 +37,8 @@ public class MapListController implements Initializable {
         try {
             var mapModelOne = MapModel.load(Objects.requireNonNull(getClass().getClassLoader().getResource("map00.map")));
             var mapModelTwo = MapModel.load(Objects.requireNonNull(getClass().getClassLoader().getResource("map01.map")));
-            var mapModelThree = MapModel.load(Objects.requireNonNull(getClass().getClassLoader().getResource("map02.map")));
 
-            mapModelObservableList.addAll(mapModelOne, mapModelTwo, mapModelThree);
+            mapModelObservableList.addAll(mapModelOne, mapModelTwo);
 
             list.setItems(mapModelObservableList);
             list.setCellFactory(cell -> new MapListCell());

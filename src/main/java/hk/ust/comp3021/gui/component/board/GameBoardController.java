@@ -5,6 +5,7 @@ import hk.ust.comp3021.game.GameState;
 import hk.ust.comp3021.game.Position;
 import hk.ust.comp3021.game.RenderingEngine;
 import hk.ust.comp3021.gui.utils.Message;
+import hk.ust.comp3021.gui.utils.Resource;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,8 +61,7 @@ public class GameBoardController implements RenderingEngine, Initializable {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        String imageFilePath = returnImageFileString(state, Position.of(finalX, finalY));
-                        cell.getController().setImage(Objects.requireNonNull(getClass().getClassLoader().getResource(imageFilePath)));
+                        cell.getController().setImage(returnImageURL(state, Position.of(finalX, finalY)));
                         Cell finalCell = cell;
                         map.add(finalCell, finalX, finalY);
                     });
@@ -73,9 +73,8 @@ public class GameBoardController implements RenderingEngine, Initializable {
 
                     var x = GridPane.getColumnIndex(node);
                     var y = GridPane.getRowIndex(node);
-                    String imageFilePath = returnImageFileString(state, Position.of(x, y));
                     Platform.runLater(() -> {
-                        cell.getController().setImage(Objects.requireNonNull(getClass().getClassLoader().getResource(imageFilePath)));
+                        cell.getController().setImage(returnImageURL(state, Position.of(x, y)));
                         if (state.getDestinations().contains(Position.of(x, y)) && state.getEntity(Position.of(x, y)) instanceof Box) {
                             Platform.runLater(() -> cell.getController().markAtDestination());
                         }
@@ -105,31 +104,23 @@ public class GameBoardController implements RenderingEngine, Initializable {
         Platform.runLater(() -> Message.info("Sokoban", content));
     }
 
-    private String returnImageFileString(GameState state, Position position) {
+    private URL returnImageURL(GameState state, Position position) {
         var entity = state.getEntity(position);
-        switch (entity) {
+        switch (Objects.requireNonNull(entity)) {
             case Wall ignored1:
-                return "components/img/wall.png";
+                return Resource.getWallImageURL();
             case Box b:
-                /*
-                if (state.getDestinations().contains(position)) {
-                    cell.getController().markAtDestination();
-                }
-
-                 */
-                return String.format("components/img/box-%d.png", b.getPlayerId());
+                return Resource.getBoxImageURL(b.getPlayerId());
             case Player p:
-                return String.format("components/img/player-%d.png", p.getId());
+                return Resource.getPlayerImageURL(p.getId());
             case Empty ignored:
                 if (state.getDestinations().contains(position)) {
-                    return "components/img/destination.png";
+                    return Resource.getDestinationImageURL();
                 } else {
-                    return "components/img/empty.png";
+                    return Resource.getEmptyImageURL();
                 }
-            case null:
-                return "components/img/empty.png";
             default:
-                return "wrong_string";
+                return Resource.getEmptyImageURL();
         }
     }
 }
