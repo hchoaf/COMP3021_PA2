@@ -110,29 +110,29 @@ If any uncaught exception occurs during the demonstration, you will get 0 for th
     - (3%) Items in the map list should be persistent when switching from start scene to game scene and back to start scene.
 - (40%) Game Scene
     - (6%) Exit game
-        - (3%) Clicking the `Exit` button should switch back to the start scene.
-        - (3%) Exiting the game should discard any progress of current game, i.e., start game with the same map again should
-          start a new game.
+        - ~~(3%) Clicking the `Exit` button should switch back to the start scene.~~
+        - ~~(3%) Exiting the game should discard any progress of current game, i.e., start game with the same map again should
+          start a new game.~~
     - (15%) Game map
-        - (3%) The game map should display the same as what is expected, i.e., each position should have the correct entity (
-          or empty).
-        - (2%) Each player and its corresponding boxes should have the same color.
-        - (2%) When a box is moved to a destination place, a green tick `✓` should be displayed on top of the box.
-        - (2%) When a box is moved out of a destination place, the green tick `✓` should be removed.
-        - (2%) Below the game map, there should be a text area displaying the current undo quota left.
-        - (2%) The undo quota should be updated when an undo action is performed.
-        - (2%) The undo quota text should show `unlimited` if the undo quota is unlimited (-1 in the game map file).
-    - (10%) Player Control panel
-        - (2%) Each player should have its own control panel on the right of the game scene (4 players at most).
-        - (4%) The control panel should display the player's picture in the middle, and buttons to move the player in the
-          four directions.
-        - (2%) The number of control panels should be the same as the number of players in the game.
-        - (2%) Each control panel should only control the corresponding player.
+        - ~~(3%) The game map should display the same as what is expected, i.e., each position should have the correct entity (
+          or empty).~~
+        - ~~(2%) Each player and its corresponding boxes should have the same color.~~
+        - ~~(2%) When a box is moved to a destination place, a green tick `✓` should be displayed on top of the box.~~
+        - ~~(2%) When a box is moved out of a destination place, the green tick `✓` should be removed.~~
+        - ~~(2%) Below the game map, there should be a text area displaying the current undo quota left.~~
+        - ~~(2%) The undo quota should be updated when an undo action is performed.~~
+        - ~~(2%) The undo quota text should show `unlimited` if the undo quota is unlimited (-1 in the game map file).~~
+    - ~~(10%) Player Control panel~~
+        - ~~(2%) Each player should have its own control panel on the right of the game scene (4 players at most).~~
+        - ~~(4%) The control panel should display the player's picture in the middle, and buttons to move the player in the
+          four directions.~~
+        - ~~(2%) The number of control panels should be the same as the number of players in the game.~~
+        - ~~(2%) Each control panel should only control the corresponding player.~~
     - (5%) Undo
-        - (5%) Clicking the `Undo` button should revert to the previous checkpoint (same as PA1).
+        - ~~(5%) Clicking the `Undo` button should revert to the previous checkpoint (same as PA1).~~
     - (4%) Messages
-        - (2%) When a player performs an invalid move, there should be an error message displayed.
-        - (2%) When the game wins, there should be a message displayed.
+        - ~~(2%) When a player performs an invalid move, there should be an error message displayed.~~
+        - ~~(2%) When the game wins, there should be a message displayed.~~
 
 ## Reference Implementation
 

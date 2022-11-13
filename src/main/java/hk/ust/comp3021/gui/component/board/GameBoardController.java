@@ -1,6 +1,9 @@
 package hk.ust.comp3021.gui.component.board;
 
-import hk.ust.comp3021.entities.*;
+import hk.ust.comp3021.entities.Box;
+import hk.ust.comp3021.entities.Empty;
+import hk.ust.comp3021.entities.Player;
+import hk.ust.comp3021.entities.Wall;
 import hk.ust.comp3021.game.GameState;
 import hk.ust.comp3021.game.Position;
 import hk.ust.comp3021.game.RenderingEngine;
@@ -15,9 +18,7 @@ import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static hk.ust.comp3021.utils.StringResources.UNDO_QUOTA_TEMPLATE;
@@ -106,7 +107,7 @@ public class GameBoardController implements RenderingEngine, Initializable {
 
     private URL returnImageURL(GameState state, Position position) {
         var entity = state.getEntity(position);
-        switch (Objects.requireNonNull(entity)) {
+        switch (entity) {
             case Wall ignored1:
                 return Resource.getWallImageURL();
             case Box b:
@@ -119,6 +120,8 @@ public class GameBoardController implements RenderingEngine, Initializable {
                 } else {
                     return Resource.getEmptyImageURL();
                 }
+            case null:
+                return Resource.getEmptyImageURL();
             default:
                 return Resource.getEmptyImageURL();
         }

@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**

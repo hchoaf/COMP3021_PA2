@@ -3,6 +3,7 @@ package hk.ust.comp3021.gui.scene.start;
 import hk.ust.comp3021.gui.component.maplist.MapEvent;
 import hk.ust.comp3021.gui.component.maplist.MapList;
 import hk.ust.comp3021.gui.component.maplist.MapModel;
+import hk.ust.comp3021.gui.utils.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,6 +45,9 @@ public class StartController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        openButton.disableProperty().bind(mapList.getSelectionModel().selectedItemProperty().isNull());
+        deleteButton.disableProperty().bind(mapList.getSelectionModel().selectedItemProperty().isNull());
         // TODO
         // this.location = location;
         // this.resources = resources;
@@ -180,8 +184,7 @@ public class StartController implements Initializable {
      * Create an alert message box.
      */
     public void showInvalidMapAlert() {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Map File");
-        alert.showAndWait();
+        Message.alert(Alert.AlertType.ERROR, "Sokoban", "Invalid Map File.");
     }
 
 }
